@@ -12,7 +12,7 @@ inputs:
     type: string
     description: >
       IP address of PRIVATE host
-    default: '192.168.20.6'
+    default: '10.10.0.3'
 
   portforward_port:
     type: string
