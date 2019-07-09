@@ -39,6 +39,7 @@ node_templates:
         create:
           inputs:
             terminal_auth: &terminal_auth
+              store_logs: true
               user: admin
               password: ''
               ip: { get_attribute: [fortigate_vnf, ip] }
