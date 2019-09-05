@@ -175,10 +175,7 @@ node_templates:
     relationships:
     - target: mgmt_network
       type: cloudify.relationships.contained_in
-    - target: lab_router
-      type: cloudify.relationships.depends_on
-    - target: lab_router
-      type: cloudify.openstack.subnet_connected_to_router
+
 
   mgmt_network:
     type: cloudify.openstack.nodes.Network
