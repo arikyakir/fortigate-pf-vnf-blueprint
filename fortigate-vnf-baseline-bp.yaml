@@ -16,9 +16,14 @@ inputs:
     default: { get_secret: small_image_flavor }
 
   network_deployment_name:
+    description: name of existing network deploymnet or the one to be called if create
     default: openstack-example-network
 
   network_blueprint_name:
+    default: openstck-example-network
+    description: blueprint name if exist or name to be created
+
+  network_blueprint_archive:
     default: https://github.com/arikyakir/openstack-example-network/archive/master.zip
     description: path (relative or URL) of the network blueprint zip
 
@@ -29,6 +34,7 @@ inputs:
   use_existing_network_deployment:
     default: true
     description: wheather or not to connect to existing network or create new one from the provided blueprint info
+
 
 dsl_definitions:
 
@@ -279,8 +285,8 @@ node_templates:
     properties:
       resource_config:
         blueprint:
-          id: { get_input: network_deployment_name }
-          blueprint_archive: { get_input: network_blueprint_name }
+          id: { get_input: network_blueprint_name }
+          blueprint_archive: { get_input: network_blueprint_archive }
           main_file_name: { get_input: network_blueprint_main_yaml }
           external_resource: { get_input: use_existing_network_deployment }
         deployment:
