@@ -20,7 +20,7 @@ inputs:
     default: openstack-example-network
 
   network_blueprint_name:
-    default: openstck-example-network
+    default: openstack-example-network
     description: blueprint name if exist or name to be created
 
   network_blueprint_archive:
@@ -301,7 +301,21 @@ node_templates:
           external_resource: { get_input: use_existing_network_deployment }
         reexecute: false
 
-outputs:
+capabilities:
 
   fortigate_vnf_mgmt_ip:
     value: { get_attribute: [fortigate_vnf, ip] }
+
+  fortigate_vnf_floating_ip:
+    value: { get_attribute: [ip, floating_ip_address] }
+
+  fortigate_vnf_floating_ip_public_interface:
+    value: { get_attribute: [ip_2, floating_ip_address] }
+
+outputs:
+
+  fortigate_login:
+    value:
+      concat:
+      - 'http://'
+      - {  get_attribute: [ip, floating_ip_address]  }

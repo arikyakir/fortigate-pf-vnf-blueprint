@@ -18,7 +18,7 @@ inputs:
     type: string
     description: >
       Port on which service is going to be exposed
-    default: '55555'
+    default: '5555'
 
   baseline-blueprint-name:
     type: string
@@ -47,8 +47,7 @@ node_templates:
           external_resource: true
           outputs:
             fortigate_vnf_mgmt_ip: mgmt_ip
-
-
+            fortigate_vnf_floating_ip_public_interface: floating_ip_public
 
 
   fortigate_vnf_portforward_service:
@@ -84,3 +83,15 @@ node_templates:
     relationships:
       - type: cloudify.relationships.depends_on
         target: fortigate_vnf_deployment
+
+
+outputs:
+
+  webapp_vnf_login:
+    value:
+      concat:
+      - 'http://'
+      - {  floating_ip_public  }
+      - ':'
+      - { portforward }
+      - '/'
