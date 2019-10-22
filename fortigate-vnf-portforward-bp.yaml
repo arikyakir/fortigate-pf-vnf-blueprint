@@ -84,14 +84,8 @@ node_templates:
       - type: cloudify.relationships.depends_on
         target: fortigate_vnf_deployment
 
-
 outputs:
 
   webapp_vnf_login:
-    value:
-      concat:
-      - 'http://'
-      - {  floating_ip_public  }
-      - ':'
-      - { portforward }
-      - '/'
+    description: login to app via secured Url
+    value: { concat: [ "http://", { floating_ip_public }, ":", { portforward } ] }
