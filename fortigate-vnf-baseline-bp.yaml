@@ -301,7 +301,7 @@ node_templates:
           external_resource: { get_input: use_existing_network_deployment }
         reexecute: false
 
-capabilities:
+outputs:
 
   fortigate_vnf_mgmt_ip:
     value: { get_attribute: [fortigate_vnf, ip] }
@@ -311,8 +311,6 @@ capabilities:
 
   fortigate_vnf_floating_ip_public_interface:
     value: { get_attribute: [ip_2, floating_ip_address] }
-
-outputs:
 
   fortigate_login:
     value:
