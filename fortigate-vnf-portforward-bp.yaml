@@ -88,4 +88,4 @@ outputs:
 
   webapp_vnf_login:
     description: login to app via secured Url
-    value: { concat: [ "http://", { floating_ip_public }, ":", { portforward } ] }
+    value: { concat: [ "http://", { get_attribute: [fortigate_vnf_deployment, deployment, outputs, floating_ip_public ] }, ":", { get_input: portforward_port } ] }
