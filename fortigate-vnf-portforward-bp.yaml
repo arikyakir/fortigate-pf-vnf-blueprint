@@ -96,7 +96,7 @@ workflows:
     parameters:
       params:
         description: json string
-        default: { "port" : "9999" }
+        default: { "port_forward" : "9999" }
       configuration_node_id:
         default: configuration_loader
       merge_dict:
