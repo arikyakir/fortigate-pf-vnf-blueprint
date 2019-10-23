@@ -4,7 +4,7 @@ config firewall vip
         set portforward enable
         set mappedip "{{PORTFORWARD_IP}}"
         set extport {{PORTFORWARD_PORT}}
-        set mappedport 8080
+        set mappedport {{MAPPED_PORT}}
     next
 end
 config firewall policy
@@ -22,4 +22,3 @@ config firewall policy
         set nat enable
     next
 end
-

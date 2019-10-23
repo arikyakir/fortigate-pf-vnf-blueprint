@@ -4,7 +4,7 @@ imports:
   - http://www.getcloudify.org/spec/cloudify/5.0.0/types.yaml
   - plugin:cloudify-openstack-plugin?version= >=2.14.7 , <3
   - plugin:cloudify-utilities-plugin
-
+  - types/terminal-config-types.yaml
 
 inputs:
 
@@ -14,11 +14,18 @@ inputs:
       IP address of PRIVATE host
     default: '10.10.0.3'
 
+
   portforward_port:
     type: string
     description: >
       Port on which service is going to be exposed
     default: '5555'
+
+  mapped_port:
+    type: string
+    description: >
+      Port on which service is listening internally
+    default: '8080'
 
   baseline-blueprint-name:
     type: string
@@ -35,8 +42,16 @@ inputs:
 
 node_templates:
 
+  configuration_loader:
+    type: configuration_loader
+    properties:
+      parameters_json: { get_input: portforward_port }
+
   fortigate_vnf_portforward_service:
-    type: cloudify.terminal.raw
+    type: terminal.config.raw
+    properties:
+      params_list:
+        - port_forward
     interfaces:
       cloudify.interfaces.lifecycle:
         create:
@@ -59,18 +74,39 @@ node_templates:
               - template: templates/fortigate-portforward-start.txt
                 params:
                   PORTFORWARD_IP: { get_input: portforward_ip }
-                  PORTFORWARD_PORT: { get_input: portforward_port }
+                  PORTFORWARD_PORT: { get_attribute: [ SELF, params, port_forward ] }
+                  MAPPED_PORT: { get_input: mapped_port }
         stop:
           inputs:
             terminal_auth: *terminal_auth
             calls:
               - template: templates/fortigate-portforward-stop.txt
-    relationships:
-      - type: cloudify.relationships.depends_on
-        target: fortigate_vnf_deployment
+        update:
+          inputs:
+            terminal_auth: *terminal_auth
+            calls:
+              - template: templates/fortigate-portforward-update.txt
+                params:
+                  DESTINATION_PORT: { get_attribute: [ SELF, params, port_forward ] }
+
+workflows:
+
+  portforwarding_update:
+    mapping: configuration.cloudify_configuration.tasks.update
+    parameters:
+      params:
+        description: json string
+        default: { "port" : "9999" }
+      configuration_node_id:
+        default: configuration_loader
+      merge_dict:
+        default: false
+      node_types_to_update:
+        default:
+          - terminal.config.raw
 
 outputs:
 
   webapp_vnf_login:
     description: login to app via secured Url
-    value: { concat: [ "http://", { get_capability: [ get_input: baseline-deployment-name, fortigate_vnf_floating_ip ] }, ":", { get_input: portforward_port } ] }
+    value: { concat: [ "http://", { get_capability: [ get_input: baseline-deployment-name, fortigate_vnf_floating_ip ] }, ":", { get_attribute: [fortigate_vnf_portforward_service, params, port ] } ] }
