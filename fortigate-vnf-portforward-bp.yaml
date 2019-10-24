@@ -14,12 +14,12 @@ inputs:
       IP address of PRIVATE host
     default: '10.10.0.3'
 
-   configuration:
-     type: string
-     description: >
-       Port on which service is going to be exposed
-     default:
-       port_forward_destination: '80'
+  configuration:
+    type: string
+    description: >
+      Port on which service is going to be exposed
+    default:
+      port_forward_destination: '80'
 
   mapped_port:
     type: string
