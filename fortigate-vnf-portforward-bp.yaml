@@ -88,6 +88,9 @@ node_templates:
               - template: templates/fortigate-portforward-update.txt
                 params:
                   DESTINATION_PORT: { get_attribute: [ SELF, params, port_forward_destination ] }
+    relationships:
+      - type: load_from_config
+        target: configuration_loader
 
 workflows:
 
