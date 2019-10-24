@@ -1,5 +1,5 @@
 config firewall vip
-    edit "sg-port-forward-vip"
+    edit "port-forward-vip"
         set extintf "port2"
         set portforward enable
         set mappedip "{{PORTFORWARD_IP}}"
@@ -9,11 +9,11 @@ config firewall vip
 end
 config firewall policy
     edit 1
-        set name "sg-port-forward-policy"
+        set name "port-forward-policy"
         set srcintf "port2"
         set dstintf "port3"
         set srcaddr "all"
-        set dstaddr "sg-port-forward-vip"
+        set dstaddr "port-forward-vip"
         set action accept
         set schedule "always"
         set service "ALL"

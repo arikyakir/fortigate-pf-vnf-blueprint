@@ -35,7 +35,6 @@ inputs:
     default: true
     description: wheather or not to connect to existing network or create new one from the provided blueprint info
 
-
 dsl_definitions:
 
   openstack_config: &openstack_config
