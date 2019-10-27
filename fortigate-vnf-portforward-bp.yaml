@@ -27,12 +27,6 @@ inputs:
       Port on which service is listening internally
     default: '8080'
 
-  baseline-blueprint-name:
-    type: string
-    description: >
-      Blueprint name of baseline Fortigate VNF
-    default: 'fortigate-vnf-baseline-bp'
-
   baseline-deployment-name:
     type: string
     description: >
