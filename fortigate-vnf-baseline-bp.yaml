@@ -19,10 +19,6 @@ inputs:
     description: name of existing network deploymnet or the one to be called if create
     default: openstack-example-network
 
-  network_blueprint_name:
-    default: openstack-example-network
-    description: blueprint name if exist or name to be created
-
   network_blueprint_archive:
     default: https://github.com/arikyakir/openstack-example-network/archive/master.zip
     description: path (relative or URL) of the network blueprint zip
